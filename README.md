@@ -1,16 +1,16 @@
 # netvetta
 
-A new Flutter project.
+## Overview
 
-## Getting Started
+A Flutter-based WebView application providing an app-based web experience for the Netvetta website.
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- Log in or sign up within the app
+- Browse the website in a WebView
+- Receive background notifications for updates
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Tech Stack
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter
+- Dart
