@@ -4,65 +4,59 @@ import 'package:flutter/material.dart';
 
 import '../constants/color_constants.dart';
 import '../constants/route_constants.dart';
-import '../services/storage_service.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  final bool isLoggedIn;
+
+  const SplashScreen({super.key, required this.isLoggedIn});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  late Image appLogo;
-
-  @override
-  void initState() {
-    super.initState();
-    const String appIcon = 'assets/icons/app_icon.png';
-    appLogo = Image.asset(appIcon, width: 240);
-    final route =
-        StorageService.isLoggedIn ? RouteConstants.pages : RouteConstants.login;
-    Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, route);
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    precacheImage(appLogo.image, context);
-    super.didChangeDependencies();
-  }
+  late final Image _appIcon;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
       color: ColorConstants.slateBlue,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          appLogo,
-          netvettaMagazamText,
+          _appIcon,
+          const SizedBox(
+            width: 160,
+            child: FittedBox(
+              child: Text(
+                'NETVETTA\nMAĞAZAM',
+                style: TextStyle(
+                  color: ColorConstants.goldenYellow,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.2,
+                  decoration: TextDecoration.none,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget get netvettaMagazamText {
-    return const SizedBox(
-      width: 160,
-      child: FittedBox(
-        child: Text(
-          'NETVETTA\nMAĞAZAM',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: ColorConstants.goldenYellow,
-            letterSpacing: 1.2,
-            decoration: TextDecoration.none,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
+  @override
+  void initState() {
+    super.initState();
+    _appIcon = Image.asset('assets/icons/app_icon.png', width: 240);
+
+    Timer(Durations.extralong4, () {
+      Navigator.pushReplacementNamed(context,
+          widget.isLoggedIn ? RouteConstants.pages : RouteConstants.login);
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      precacheImage(_appIcon.image, context);
+    });
   }
 }
