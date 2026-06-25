@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BottomNavBarItem extends StatelessWidget {
   const BottomNavBarItem({
@@ -14,7 +15,7 @@ class BottomNavBarItem extends StatelessWidget {
 
   final Function() onTap;
   final bool isSelected;
-  final IconData icon;
+  final FaIconData icon;
   final String text;
   final Widget? child;
   final double? fontSize;
@@ -28,7 +29,7 @@ class BottomNavBarItem extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
+              FaIcon(
                 icon,
                 size: iconSize ?? 22,
                 color: isSelected ? Colors.black : Colors.black45,

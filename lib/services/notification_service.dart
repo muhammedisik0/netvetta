@@ -31,7 +31,7 @@ class NotificationService {
     );
 
     await notificationsPlugin.initialize(
-      initializationSettings,
+      settings: initializationSettings,
       onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
     );
   }
@@ -65,6 +65,11 @@ class NotificationService {
 
   Future<void> showNotification(
       {int id = 0, String? title, String? body, String? payLoad}) {
-    return notificationsPlugin.show(id, title, body, notificationDetails);
+    return notificationsPlugin.show(
+      id: id,
+      title: title,
+      body: body,
+      notificationDetails: notificationDetails,
+    );
   }
 }

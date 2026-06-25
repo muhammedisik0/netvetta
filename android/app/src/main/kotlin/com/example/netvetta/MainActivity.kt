@@ -1,4 +1,4 @@
-package com.example.netvetta
+package com.netvetta.ecommerce
 
 import io.flutter.embedding.android.FlutterActivity
 

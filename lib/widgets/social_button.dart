@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SocialButton extends StatelessWidget {
   const SocialButton({
@@ -9,7 +10,7 @@ class SocialButton extends StatelessWidget {
   }) : super(key: key);
 
   final Function() onPressed;
-  final IconData icon;
+  final FaIconData icon;
   final Color color;
 
   @override
@@ -19,7 +20,7 @@ class SocialButton extends StatelessWidget {
       radius: 20,
       child: IconButton(
         onPressed: onPressed,
-        icon: Icon(
+        icon: FaIcon(
           icon,
           size: 20,
           color: Colors.white,

@@ -20,7 +20,7 @@ class InternetConnectivityWidget extends StatefulWidget {
 class _InternetConnectivityWidgetState
     extends State<InternetConnectivityWidget> {
   final connectivityService = ConnectivityService();
-  late StreamSubscription<ConnectivityResult> connectivitySubscription;
+  late StreamSubscription<List<ConnectivityResult>> connectivitySubscription;
   bool hasInternet = true;
 
   @override
@@ -44,7 +44,7 @@ class _InternetConnectivityWidgetState
     if (!value) setState(() => hasInternet = value);
   }
 
-  void onResult(ConnectivityResult result) {
+  void onResult(List<ConnectivityResult> result) {
     final value = connectivityService.hasInternet(result);
     setState(() => hasInternet = value);
     internetNotifier.value = value;
