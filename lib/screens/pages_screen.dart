@@ -9,7 +9,7 @@ import 'package:netvetta/widgets/internet_connectivity_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../widgets/account_sub_buttons_widget.dart';
-import '../constants/api_constants.dart';
+import '../constants/netvetta_api_constants.dart';
 import '../constants/color_constants.dart';
 import '../constants/route_constants.dart';
 import '../constants/uri_constants.dart';
@@ -143,8 +143,7 @@ class _PagesScreenState extends State<PagesScreen> {
 
   Future<void> onLogOutPressed() async {
     if (internetNotifier.value) {
-      await StorageService.clearStorage();
-      await loadRequest(ApiConstants.logOutUrl);
+      await loadRequest(NetvettaApiConstants.logoutUrl);
       Navigator.pushReplacementNamed(context, RouteConstants.login);
     } else {
       onNavigationBarTap(2);

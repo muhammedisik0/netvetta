@@ -27,22 +27,9 @@ class StorageService {
 
   static set userId(int value) => _storage.write('userId', value);
 
-  static String get latestNotificationId =>
-      _storage.read('latestNotificationId') ?? '0';
+  static String get lastNotificationId =>
+      _storage.read('lastNotificationId') ?? '0';
 
-  static set latestNotificationId(String value) =>
-      _storage.write('latestNotificationId', value);
-
-  static Future<void> clearStorage() async {
-    await _storage.erase();
-    /*await Future.wait(
-      [
-        _storage.remove('phoneNumber'),
-        _storage.remove('password'),
-        _storage.remove('isLoggedIn'),
-        _storage.remove('userId'),
-        _storage.remove('latestNotificationId'),
-      ],
-    );*/
-  }
+  static set lastNotificationId(String value) =>
+      _storage.write('lastNotificationId', value);
 }
