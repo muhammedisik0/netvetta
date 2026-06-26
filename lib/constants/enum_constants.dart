@@ -1,1 +1,1 @@
-enum LoginSatus { success, fail, error, exception }
+enum LoginStatus { success, error, failure }

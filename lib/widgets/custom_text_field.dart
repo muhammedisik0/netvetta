@@ -2,29 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    Key? key,
-    required this.controller,
-    required this.hintText,
-    this.obscureText,
-    required this.inputAction,
-    this.keyboardType,
-  }) : super(key: key);
-
   final TextEditingController controller;
   final String hintText;
-  final bool? obscureText;
   final TextInputAction inputAction;
   final TextInputType? keyboardType;
+  final bool? obscureText;
+
+  const CustomTextField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    required this.inputAction,
+    this.keyboardType,
+    this.obscureText,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       cursorColor: Colors.black,
       obscureText: obscureText ?? false,
-      inputFormatters: [
-        FilteringTextInputFormatter.deny(RegExp(r'\s')), // Deny spaces
-      ],
+      inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
       keyboardType: keyboardType,
       textInputAction: inputAction,
       controller: controller,

@@ -1,19 +1,18 @@
 class MessageConstants {
   MessageConstants._();
 
-  static const String loggedInSuccessfully =
-      'Başarılı bir şekide giriş yaptın!';
-
   static const String incorrectCredentials =
-      'Giriş bilgileri yanlış, tekrar deneyin!';
-
-  static const String anErrorOccured = 'Bir hata oluştu!';
+      'Giriş bilgileri yanlış, lütfen tekrar deneyin.';
 
   static const String fillInTheRequiredFields =
-      'Lütfen gerekli alanları doldurun!';
+      'Lütfen zorunlu alanları doldurun.';
+
+  static const String loggedInSuccessfully = 'Giriş başarılı.';
 
   static const String noInternetConnection = 'İnternet Bağlantısı Yok';
 
   static const String checkYourInternetConnection =
-      'Lütfen internet bağlantınızı kontrol edin!';
+      'Lütfen internet bağlantınızı kontrol edin.';
+
+  static const String unexpectedErrorOccurred = 'Beklenmedik bir hata oluştu.';
 }

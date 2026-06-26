@@ -23,10 +23,12 @@ class BackgroundTaskService {
 
         final latestNotifications = notifications.take(count > 10 ? 10 : count);
 
-        final userId = '${StorageService.userId}';
+        final user = StorageService.user;
 
         for (final notification in latestNotifications) {
-          if (notification.cari == userId || notification.cari == '0') {
+          final cari = int.parse(notification.cari);
+
+          if (cari == user?.id || cari == 0) {
             LocalNotificationService().show(
               id: int.parse(notification.id),
               title: 'Netvetta',

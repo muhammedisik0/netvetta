@@ -1,239 +1,198 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../utils/globals.dart';
 import '../constants/enum_constants.dart';
 import '../constants/message_constants.dart';
 import '../constants/route_constants.dart';
 import '../constants/uri_constants.dart';
+import '../helpers/dialog_helper.dart';
 import '../helpers/snackbar_helper.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
 import '../services/storage_service.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/custom_textfield_widget.dart';
+import '../widgets/custom_text_field.dart';
+import '../widgets/font_awesome_icon_button.dart';
 import '../widgets/internet_connectivity_widget.dart';
-import '../widgets/social_button.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
-  final TextEditingController userCodeController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
-  String get userCode => userCodeController.text.trim();
-  String get phoneNumber => phoneNumberController.text.trim();
-  String get password => passwordController.text.trim();
+class _LoginScreenState extends State<LoginScreen> {
+  final _userCodeController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
+  final _passwordController = TextEditingController();
 
-  Future<void> onLoginButtonPressed() async {
-    if (userCode.isEmpty || phoneNumber.isEmpty || password.isEmpty) {
-      SnackBarHelper.showErrorSnackBar(
-        MessageConstants.fillInTheRequiredFields,
-      );
-      return;
-    }
+  String get password => _passwordController.text.trim();
 
-    showDialog(
-      barrierDismissible: false,
-      context: navigatorKey.currentContext!,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(
-          color: Colors.white,
-        ),
-      ),
-    );
+  String get phoneNumber => _phoneNumberController.text.trim();
 
-    final status = await loginStatus;
-    Navigator.of(navigatorKey.currentContext!).pop();
-    checkLoginStatus(status);
-  }
-
-  void onSignUpButtonPressed() {
-    Navigator.pushNamed(
-      navigatorKey.currentContext!,
-      RouteConstants.signUp,
-    );
-  }
-
-  Future<void> onInstagramButtonPressed() async {
-    final uri = Uri.parse(UriConstants.instagram);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      throw 'Could not launch!';
-    }
-  }
-
-  Future<void> onFacebookButtonPressed() async {
-    final uri = Uri.parse(UriConstants.facebook);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      throw 'Could not launch!';
-    }
-  }
-
-  Future<LoginSatus> get loginStatus async {
-    final user = User(
-      kk: userCode,
-      phoneNumber: phoneNumber,
-      password: password,
-    );
-    return AuthService().logIn(user);
-  }
-
-  Future<void> checkLoginStatus(LoginSatus status) async {
-    switch (status) {
-      case LoginSatus.success:
-        await storeUserDataLocally();
-        SnackBarHelper.showSuccessSnackBar(
-          MessageConstants.loggedInSuccessfully,
-        );
-        Navigator.pushReplacementNamed(
-          navigatorKey.currentContext!,
-          RouteConstants.pages,
-        );
-        break;
-      case LoginSatus.fail:
-        SnackBarHelper.showErrorSnackBar(
-          MessageConstants.incorrectCredentials,
-        );
-        break;
-      case LoginSatus.error:
-        SnackBarHelper.showErrorSnackBar(
-          MessageConstants.anErrorOccured,
-        );
-        break;
-      case LoginSatus.exception:
-        SnackBarHelper.showErrorSnackBar(
-          MessageConstants.anErrorOccured,
-        );
-        break;
-    }
-  }
-
-  Future<void> storeUserDataLocally() async {
-    Future.wait([
-      StorageService.setUserCode(userCode),
-      StorageService.setPhoneNumber(phoneNumber),
-      StorageService.setPassword(password),
-      StorageService.setIsLoggedIn(true),
-    ]);
-  }
+  String get userCode => _userCodeController.text.trim();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SafeArea(child: InternetConnectivityWidget(online: onlineWidget)),
-    );
-  }
-
-  Widget get onlineWidget {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-      child: Column(
-        children: [
-          Expanded(
+      body: SafeArea(
+        child: InternetConnectivityWidget(
+          online: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                netvettaText,
-                const SizedBox(height: 40),
-                userCodeField,
-                const SizedBox(height: 20),
-                phoneNumberField,
-                const SizedBox(height: 20),
-                passwordField,
-                const SizedBox(height: 20),
-                loginButton,
-                const SizedBox(height: 10),
-                signUpButton,
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Netvetta Mağazam',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                      CustomTextField(
+                        controller: _userCodeController,
+                        hintText: 'Kullanıcı Kodu',
+                        inputAction: TextInputAction.next,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _phoneNumberController,
+                        hintText: '(502xxxxxxx)',
+                        inputAction: TextInputAction.next,
+                        keyboardType: TextInputType.number,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _passwordController,
+                        hintText: 'Şifre',
+                        obscureText: true,
+                        inputAction: TextInputAction.done,
+                        keyboardType: TextInputType.number,
+                      ),
+                      const SizedBox(height: 20),
+                      MaterialButton(
+                        onPressed: _onLogIn,
+                        minWidth: double.infinity,
+                        height: 48,
+                        color: const Color(0xff009688),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Text('Giriş',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 16)),
+                      ),
+                      const SizedBox(height: 10),
+                      MaterialButton(
+                        onPressed: () =>
+                            Navigator.pushNamed(context, RouteConstants.signUp),
+                        minWidth: double.infinity,
+                        height: 48,
+                        color: const Color(0xffff8000),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Text('Üye Ol',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 16)),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FontAwesomeIconButton(
+                      onPressed: () => _launchUrl(UriConstants.instagram),
+                      icon: FontAwesomeIcons.instagram,
+                      color: const Color(0xffc2185b),
+                    ),
+                    const SizedBox(width: 20),
+                    FontAwesomeIconButton(
+                      onPressed: () => _launchUrl(UriConstants.facebook),
+                      icon: FontAwesomeIcons.facebook,
+                      color: const Color(0xff1877F2),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
-          socialButtons
-        ],
+        ),
       ),
     );
   }
 
-  Widget get netvettaText {
-    return const Text(
-      'Netvetta Mağazam',
-      style: TextStyle(
-        fontSize: 28,
-        fontWeight: FontWeight.w500,
-        color: Colors.black,
-      ),
-    );
+  @override
+  void dispose() {
+    _userCodeController.dispose();
+    _phoneNumberController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
-  Widget get userCodeField {
-    return CustomTextField(
-      controller: userCodeController,
-      hintText: 'Kullanıcı Kodu',
-      inputAction: TextInputAction.next,
-    );
+  void _launchUrl(String url) async {
+    try {
+      final uri = Uri.parse(url);
+
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        if (!mounted) return;
+        SnackBarHelper.showError(
+            context, MessageConstants.unexpectedErrorOccurred);
+      }
+    } catch (e) {
+      if (!mounted) return;
+      SnackBarHelper.showError(
+          context, MessageConstants.unexpectedErrorOccurred);
+    }
   }
 
-  Widget get phoneNumberField {
-    return CustomTextField(
-      controller: phoneNumberController,
-      hintText: '(502xxxxxxx)',
-      inputAction: TextInputAction.next,
-      keyboardType: TextInputType.number,
-    );
-  }
+  void _onLogIn() async {
+    if (userCode.isEmpty || phoneNumber.isEmpty || password.isEmpty) {
+      SnackBarHelper.showError(
+          context, MessageConstants.fillInTheRequiredFields);
+      return;
+    }
 
-  Widget get passwordField {
-    return CustomTextField(
-      controller: passwordController,
-      hintText: 'Şifre',
-      obscureText: true,
-      inputAction: TextInputAction.done,
-      keyboardType: TextInputType.number,
-    );
-  }
+    DialogHelper.showLoadingIndicator(context);
 
-  Widget get loginButton {
-    return CustomButton(
-      onPressed: onLoginButtonPressed,
-      text: 'Giriş',
-      color: const Color(0xff009688),
-      height: 48,
+    final user = User(
+      id: -1,
+      userCode: userCode,
+      phoneNumber: phoneNumber,
+      password: password,
     );
-  }
 
-  Widget get signUpButton {
-    return CustomButton(
-      onPressed: onSignUpButtonPressed,
-      text: 'Üye Ol',
-      color: const Color(0xffff8000),
-      height: 48,
-    );
-  }
+    await AuthService.logIn(user).then((status) {
+      if (!mounted) return;
 
-  Widget get socialButtons {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SocialButton(
-          onPressed: onInstagramButtonPressed,
-          icon: FontAwesomeIcons.instagram,
-          color: const Color(0xffc2185b),
-        ),
-        const SizedBox(width: 20),
-        SocialButton(
-          onPressed: onFacebookButtonPressed,
-          icon: FontAwesomeIcons.facebook,
-          color: const Color(0xff1877F2),
-        ),
-      ],
-    );
+      Navigator.of(context).pop();
+
+      switch (status) {
+        case LoginStatus.success:
+          StorageService.user = user;
+
+          SnackBarHelper.showSuccess(
+              context, MessageConstants.loggedInSuccessfully);
+
+          Navigator.pushReplacementNamed(context, RouteConstants.pages);
+          break;
+        case LoginStatus.error:
+          SnackBarHelper.showError(
+              context, MessageConstants.incorrectCredentials);
+          break;
+        case LoginStatus.failure:
+          SnackBarHelper.showError(
+              context, MessageConstants.unexpectedErrorOccurred);
+          break;
+      }
+    });
   }
 }

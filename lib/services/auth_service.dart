@@ -2,24 +2,28 @@ import 'dart:async';
 
 import 'package:http/http.dart' as http;
 
-import '../constants/netvetta_api_constants.dart';
 import '../constants/enum_constants.dart';
+import '../constants/netvetta_api_constants.dart';
 import '../models/user_model.dart';
 
 class AuthService {
-  Future<LoginSatus> logIn(User user) async {
+  static Future<LoginStatus> logIn(User user) async {
     try {
-      final response = await http.post(
-        Uri.parse(NetvettaApiConstants.loginUrl),
-        body: user.toJson(),
-      );
+      final url = Uri.parse(NetvettaApiConstants.loginUrl);
+
+      final response = await http
+          .post(url, body: user.toApiJson())
+          .timeout(const Duration(seconds: 15));
+
       if (response.statusCode == 200) {
-        return response.body == 'error' ? LoginSatus.fail : LoginSatus.success;
-      } else {
-        return LoginSatus.error;
+        return response.body == 'error'
+            ? LoginStatus.error
+            : LoginStatus.success;
       }
+
+      return LoginStatus.failure;
     } catch (e) {
-      return LoginSatus.exception;
+      return LoginStatus.failure;
     }
   }
 }

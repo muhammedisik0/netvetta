@@ -1,42 +1,41 @@
 import 'package:flutter/material.dart';
 
-import '../utils/globals.dart';
-
 class SnackBarHelper {
-  static void showErrorSnackBar(String text) {
-    final snackBar = SnackBar(
-      backgroundColor: Colors.red,
-      duration: const Duration(seconds: 3),
-      behavior: SnackBarBehavior.floating,
-      content: Text(
-        text,
-        style: const TextStyle(fontSize: 16),
-      ),
-    );
-
-    _show(snackBar);
+  static void showError(BuildContext context, String text) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 3),
+          behavior: SnackBarBehavior.floating,
+          content: Row(
+            children: [
+              Icon(Icons.error_outline_outlined, color: Colors.white),
+              const SizedBox(width: 10),
+              Text(text),
+            ],
+          ),
+        ),
+      );
   }
 
-  static void showSuccessSnackBar(String text) {
-    final snackBar = SnackBar(
-      backgroundColor: Colors.green,
-      duration: const Duration(seconds: 3),
-      behavior: SnackBarBehavior.floating,
-      content: Text(
-        text,
-        style: const TextStyle(fontSize: 16),
-      ),
-    );
-
-    _show(snackBar);
-  }
-
-  static void _show(SnackBar snackBar) {
-    final scaffoldMessengerState =
-        ScaffoldMessenger.of(navigatorKey.currentContext!);
-    if (scaffoldMessengerState.mounted) {
-      scaffoldMessengerState.hideCurrentSnackBar();
-    }
-    scaffoldMessengerState.showSnackBar(snackBar);
+  static void showSuccess(BuildContext context, String text) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.green,
+          duration: const Duration(seconds: 3),
+          behavior: SnackBarBehavior.floating,
+          content: Row(
+            children: [
+              Icon(Icons.check_circle_outline_outlined, color: Colors.white),
+              const SizedBox(width: 10),
+              Text(text),
+            ],
+          ),
+        ),
+      );
   }
 }

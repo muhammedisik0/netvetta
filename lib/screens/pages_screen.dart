@@ -1,10 +1,7 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:netvetta/utils/globals.dart';
 import 'package:netvetta/widgets/internet_connectivity_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
