@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../constants/message_constants.dart';
 
-class NoInternetWidget extends StatelessWidget {
-  const NoInternetWidget({super.key});
+class NoInternetConnectionWidget extends StatelessWidget {
+  const NoInternetConnectionWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

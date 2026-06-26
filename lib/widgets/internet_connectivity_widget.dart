@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/globals.dart';
-import 'no_internet_widget.dart';
 import '../services/connectivity_service.dart';
+import '../utils/globals.dart';
+import 'no_internet_connection_widget.dart';
 
 class InternetConnectivityWidget extends StatefulWidget {
-  const InternetConnectivityWidget({super.key, required this.online});
-
   final Widget online;
+
+  const InternetConnectivityWidget({super.key, required this.online});
 
   @override
   State<InternetConnectivityWidget> createState() =>
@@ -19,39 +19,40 @@ class InternetConnectivityWidget extends StatefulWidget {
 
 class _InternetConnectivityWidgetState
     extends State<InternetConnectivityWidget> {
-  final connectivityService = ConnectivityService();
-  late StreamSubscription<List<ConnectivityResult>> connectivitySubscription;
-  bool hasInternet = true;
+  final _connectivityService = ConnectivityService();
+  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+
+  bool _hasInternetConnection = true;
 
   @override
-  void initState() {
-    super.initState();
-
-    checkInternetOnInit();
-    connectivitySubscription =
-        connectivityService.connectivityStream.listen(onResult);
+  Widget build(BuildContext context) {
+    return _hasInternetConnection
+        ? widget.online
+        : const NoInternetConnectionWidget();
   }
 
   @override
   void dispose() {
-    connectivitySubscription.cancel();
+    _connectivitySubscription.cancel();
     super.dispose();
   }
 
-  Future<void> checkInternetOnInit() async {
-    final result = await connectivityService.connectivityResult;
-    final value = connectivityService.hasInternet(result);
-    if (!value) setState(() => hasInternet = value);
-  }
-
-  void onResult(List<ConnectivityResult> result) {
-    final value = connectivityService.hasInternet(result);
-    setState(() => hasInternet = value);
-    internetNotifier.value = value;
-  }
-
   @override
-  Widget build(BuildContext context) {
-    return hasInternet ? widget.online : const NoInternetWidget();
+  void initState() {
+    super.initState();
+    _checkInitialInternetConnection();
+
+    _connectivitySubscription =
+        _connectivityService.connectivityStream.listen((result) {
+      final hasInternetConnection = _connectivityService.hasInternet(result);
+      setState(() => _hasInternetConnection = hasInternetConnection);
+      internetNotifier.value = hasInternetConnection;
+    });
+  }
+
+  void _checkInitialInternetConnection() async {
+    final result = await _connectivityService.connectivityResult;
+    final hasInternetConnection = _connectivityService.hasInternet(result);
+    setState(() => _hasInternetConnection = hasInternetConnection);
   }
 }
