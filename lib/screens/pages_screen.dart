@@ -9,7 +9,7 @@ import '../widgets/account_sub_buttons_widget.dart';
 import '../constants/netvetta_api_constants.dart';
 import '../constants/color_constants.dart';
 import '../constants/route_constants.dart';
-import '../constants/uri_constants.dart';
+import '../constants/netvetta_web_constants.dart';
 import '../services/storage_service.dart';
 import '../utils/function_utils.dart';
 import '../widgets/bottom_navbar_item.dart';
@@ -48,10 +48,10 @@ class _PagesScreenState extends State<PagesScreen> {
       ..loadRequest(Uri.parse(loginUrl));
   }
 
-  String get loginUrl => UriConstants.login;
-  String get homeUrl => UriConstants.home;
-  String get basketUrl => '${UriConstants.basket}/$userId';
-  String get accountUrl => '${UriConstants.account}/$userId';
+  String get loginUrl => NetvettaWebConstants.login;
+  String get homeUrl => NetvettaWebConstants.home;
+  String get basketUrl => '${NetvettaWebConstants.basket}/$userId';
+  String get accountUrl => '${NetvettaWebConstants.account}/$userId';
 
   NavigationDelegate get navigationDelegate {
     return NavigationDelegate(

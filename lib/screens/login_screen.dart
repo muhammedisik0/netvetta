@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../constants/enum_constants.dart';
 import '../constants/message_constants.dart';
 import '../constants/route_constants.dart';
-import '../constants/uri_constants.dart';
+import '../constants/netvetta_web_constants.dart';
 import '../helpers/dialog_helper.dart';
 import '../helpers/snackbar_helper.dart';
 import '../models/user_model.dart';
@@ -108,13 +108,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FontAwesomeIconButton(
-                      onPressed: () => _launchUrl(UriConstants.instagram),
+                      onPressed: () =>
+                          _launchUrl(NetvettaWebConstants.instagram),
                       icon: FontAwesomeIcons.instagram,
                       color: const Color(0xffc2185b),
                     ),
                     const SizedBox(width: 20),
                     FontAwesomeIconButton(
-                      onPressed: () => _launchUrl(UriConstants.facebook),
+                      onPressed: () =>
+                          _launchUrl(NetvettaWebConstants.facebook),
                       icon: FontAwesomeIcons.facebook,
                       color: const Color(0xff1877F2),
                     ),
