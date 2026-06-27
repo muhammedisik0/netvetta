@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 10),
                       MaterialButton(
                         onPressed: () =>
-                            Navigator.pushNamed(context, RouteConstants.signUp),
+                            Navigator.pushNamed(context, RouteConstants.signup),
                         minWidth: double.infinity,
                         height: 48,
                         color: const Color(0xffff8000),

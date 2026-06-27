@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../constants/color_constants.dart';
 import '../constants/enum_constants.dart';
 import '../constants/netvetta_api_constants.dart';
 import '../constants/netvetta_web_constants.dart';
@@ -55,7 +54,7 @@ class _NetvettaWebViewScreenState extends State<NetvettaWebViewScreen> {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: const BoxDecoration(
-          color: ColorConstants.white,
+          color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           boxShadow: [
             BoxShadow(

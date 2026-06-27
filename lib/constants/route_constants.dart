@@ -1,8 +1,8 @@
 class RouteConstants {
   RouteConstants._();
 
-  static const String initialRoute = '/';
+  static const String initial = '/';
   static const String login = '/login';
-  static const String signUp = '/signUp';
+  static const String signup = '/signup';
   static const String webview = '/webview';
 }

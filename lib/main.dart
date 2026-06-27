@@ -25,12 +25,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: RouteConstants.initialRoute,
+      initialRoute: RouteConstants.initial,
       routes: {
-        RouteConstants.initialRoute: (context) =>
+        RouteConstants.initial: (context) =>
             SplashScreen(isLoggedIn: StorageService.user != null),
         RouteConstants.login: (context) => LoginScreen(),
-        RouteConstants.signUp: (context) =>
+        RouteConstants.signup: (context) =>
             SignupWebViewScreen(url: Uri.parse(NetvettaWebConstants.signup)),
         RouteConstants.webview: (context) => NetvettaWebViewScreen(
             initialUrl: NetvettaWebConstants.login.uri,
