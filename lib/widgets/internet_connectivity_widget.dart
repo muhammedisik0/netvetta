@@ -4,13 +4,14 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 import '../services/connectivity_service.dart';
-import '../utils/globals.dart';
 import 'no_internet_connection_widget.dart';
 
 class InternetConnectivityWidget extends StatefulWidget {
-  final Widget online;
+  final ValueChanged<bool>? onChanged;
+  final Widget child;
 
-  const InternetConnectivityWidget({super.key, required this.online});
+  const InternetConnectivityWidget(
+      {super.key, this.onChanged, required this.child});
 
   @override
   State<InternetConnectivityWidget> createState() =>
@@ -27,7 +28,7 @@ class _InternetConnectivityWidgetState
   @override
   Widget build(BuildContext context) {
     return _hasInternetConnection
-        ? widget.online
+        ? widget.child
         : const NoInternetConnectionWidget();
   }
 
@@ -46,7 +47,7 @@ class _InternetConnectivityWidgetState
         _connectivityService.connectivityStream.listen((result) {
       final hasInternetConnection = _connectivityService.hasInternet(result);
       setState(() => _hasInternetConnection = hasInternetConnection);
-      internetNotifier.value = hasInternetConnection;
+      widget.onChanged?.call(hasInternetConnection);
     });
   }
 

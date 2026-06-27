@@ -4,5 +4,5 @@ class RouteConstants {
   static const String initialRoute = '/';
   static const String login = '/login';
   static const String signUp = '/signUp';
-  static const String pages = '/pages';
+  static const String webview = '/webview';
 }

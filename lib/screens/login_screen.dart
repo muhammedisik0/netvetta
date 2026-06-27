@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: InternetConnectivityWidget(
-          online: Padding(
+          child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
             child: Column(
               children: [
@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final user = User(
       id: -1,
-      userCode: userCode,
+      code: userCode,
       phoneNumber: phoneNumber,
       password: password,
     );
@@ -184,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
           SnackBarHelper.showSuccess(
               context, MessageConstants.loggedInSuccessfully);
 
-          Navigator.pushReplacementNamed(context, RouteConstants.pages);
+          Navigator.pushReplacementNamed(context, RouteConstants.webview);
           break;
         case LoginStatus.error:
           SnackBarHelper.showError(

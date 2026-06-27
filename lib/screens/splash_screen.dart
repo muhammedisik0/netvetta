@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Timer(Durations.extralong4, () {
       Navigator.pushReplacementNamed(context,
-          widget.isLoggedIn ? RouteConstants.pages : RouteConstants.login);
+          widget.isLoggedIn ? RouteConstants.webview : RouteConstants.login);
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {

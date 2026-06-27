@@ -20,7 +20,7 @@ class _SignupWebViewScreenState extends State<SignupWebViewScreen> {
     return Scaffold(
       body: SafeArea(
         child: InternetConnectivityWidget(
-          online: WebViewWidget(controller: webViewController),
+          child: WebViewWidget(controller: webViewController),
         ),
       ),
     );
